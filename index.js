@@ -19,8 +19,14 @@ app.get("/", (req, res) => {
 client.connect((err) => {
   const collection = client.db("mongo-curd").collection("products");
   // perform actions on the collection object
+
+  const product = { name: "honey", price: 25, quantity: 20 };
+
+  collection.insertOne(product).then((result) => {
+    console.log("One Product Added");
+  });
+
   console.log("DB Connected!");
-  client.close();
 });
 
 const PORT = process.env.port || 8080;
