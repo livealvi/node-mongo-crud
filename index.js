@@ -21,7 +21,6 @@ app.get("/", (req, res) => {
 
 client.connect((err) => {
   const productCollection = client.db("mongo-curd").collection("products");
-
   app.post("/addProduct", (req, res) => {
     const product = req.body;
     productCollection.insertOne(product).then((result) => {
