@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const { MongoClient } = require("mongodb");
 
@@ -11,19 +12,23 @@ const client = new MongoClient(uri, {
 
 const app = express();
 app.use(morgan("dev"));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => {
-  res.send("I am Running!");
+  res.sendFile(__dirname + "/index.html");
 });
 
 client.connect((err) => {
-  const collection = client.db("mongo-curd").collection("products");
+  const productCollection = client.db("mongo-curd").collection("products");
   // perform actions on the collection object
 
-  const product = { name: "honey", price: 25, quantity: 20 };
-
-  collection.insertOne(product).then((result) => {
-    console.log("One Product Added");
+  app.post("/addProduct", (req, res) => {
+    const product = req.body;
+    productCollection.insertOne(product).then((result) => {
+      console.log("data added successfully");
+      res.send("success");
+    });
   });
 
   console.log("DB Connected!");

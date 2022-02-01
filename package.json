@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/livealvi/node-mongo-crud#readme",
   "dependencies": {
+    "body-parser": "^1.19.1",
     "express": "^4.17.2",
     "mongodb": "^4.3.1",
     "morgan": "^1.10.0"
