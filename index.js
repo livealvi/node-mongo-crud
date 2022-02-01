@@ -17,8 +17,9 @@ app.get("/", (req, res) => {
 });
 
 client.connect((err) => {
-  const collection = client.db("test").collection("devices");
+  const collection = client.db("mongo-curd").collection("products");
   // perform actions on the collection object
+  console.log("DB Connected!");
   client.close();
 });
 
