@@ -22,6 +22,7 @@
     <br />
     <div id="products">
         <h2>Products List</h2>
+
     </div>
 
     <script>
@@ -29,17 +30,26 @@
             fetch("/products")
                 .then(res => res.json())
                 .then(products => {
-                    console.log(products);
                     const container = document.getElementById('products');
                     products.forEach(product => {
                         const item = document.createElement('p');
                         item.innerHTML =
-                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity}`;
+                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity} | <button onclick="deleteProduct('${product._id}')">Delete</button>`;
                         container.appendChild(item);
                     });
                 })
         }
+
         loadProducts();
+
+        function deleteProduct(id) {
+            fetch(`/delete/${id}`, {
+                    method: 'DELETE'
+                }).then(res => res.json())
+                .then(result => {
+                    console.log('delete successfully');
+                })
+        }
     </script>
 </body>
 
