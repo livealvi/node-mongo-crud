@@ -54,9 +54,9 @@
     <br />
     <strong>Price </strong><input type="text" name="" id="price" value="${data.price}">
     <br />
-    <strong>Quantity </strong><input type="text" name="" id="qunatity" value="${data.quantity}">
+    <strong>Quantity </strong><input type="text" name="" id="quantity" value="${data.quantity}">
     <br/>
-    <button>Submit</button>
+    <button onclick="updateProduct('${data._id}')">Submit</button>
                     `;
                 })
         }
@@ -67,6 +67,29 @@
                 }).then(res => res.json())
                 .then(result => {
                     console.log('delete successfully');
+                })
+        }
+
+        function updateProduct(id) {
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+            const quantity = document.getElementById('quantity').value;
+            const product = {
+                id,
+                name,
+                price,
+                quantity
+            }
+            fetch(`/update/${id}`, {
+                    method: "PATCH",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(product)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    console.log('updated');
                 })
         }
     </script>

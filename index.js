@@ -48,12 +48,30 @@ client.connect((err) => {
       });
   });
 
-  //update
+  //find by id
   app.get("/product/:id", (req, res) => {
     productCollection
       .find({ _id: ObjectId(req.params.id) })
       .toArray((error, documents) => {
         res.send(documents[0]);
+      });
+  });
+
+  //update
+  app.patch("/update/:id", (req, res) => {
+    productCollection
+      .updateOne(
+        { _id: ObjectId(req.params.id) },
+        {
+          $set: {
+            name: req.body.name,
+            price: req.body.price,
+            quantity: req.body.quantity,
+          },
+        }
+      )
+      .then((result) => {
+        console.log(result);
       });
   });
 
