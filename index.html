@@ -18,6 +18,29 @@
         <input type="text" name="quantity" id="" placeholder="quantity">
         <button type="submit">Add Product</button>
     </form>
+
+    <br />
+    <div id="products">
+        <h2>Products List</h2>
+    </div>
+
+    <script>
+        function loadProducts() {
+            fetch("/products")
+                .then(res => res.json())
+                .then(products => {
+                    console.log(products);
+                    const container = document.getElementById('products');
+                    products.forEach(product => {
+                        const item = document.createElement('p');
+                        item.innerHTML =
+                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity}`;
+                        container.appendChild(item);
+                    });
+                })
+        }
+        loadProducts();
+    </script>
 </body>
 
 </html>
