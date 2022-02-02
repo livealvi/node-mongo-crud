@@ -22,11 +22,12 @@
     <br />
     <div id="products">
         <h2>Products List</h2>
-
     </div>
 
+    <div id="update"></div>
+
     <script>
-        function loadProducts() {
+        function loadAllProducts() {
             fetch("/products")
                 .then(res => res.json())
                 .then(products => {
@@ -34,13 +35,31 @@
                     products.forEach(product => {
                         const item = document.createElement('p');
                         item.innerHTML =
-                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity} | <button onclick="deleteProduct('${product._id}')">Delete</button>`;
+                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity} | <button onclick="loadProduct('${product._id}')">Update</button> | <button onclick="deleteProduct('${product._id}')">Delete</button> `;
                         container.appendChild(item);
                     });
                 })
         }
+        loadAllProducts();
 
-        loadProducts();
+        function loadProduct(id) {
+            fetch(`product/${id}`)
+                .then(res => res.json())
+                .then(data => {
+                    const update = document.getElementById('update').innerHTML = `
+                    <h3>Update - </h3>
+    <strong>Id </strong><input type="text" name="" id="id" disabled value="${data._id}">
+    <br />
+    <strong>Name </strong><input type="text" name="" id="name" value="${data.name}">
+    <br />
+    <strong>Price </strong><input type="text" name="" id="price" value="${data.price}">
+    <br />
+    <strong>Quantity </strong><input type="text" name="" id="qunatity" value="${data.quantity}">
+    <br/>
+    <button>Submit</button>
+                    `;
+                })
+        }
 
         function deleteProduct(id) {
             fetch(`/delete/${id}`, {

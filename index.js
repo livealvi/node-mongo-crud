@@ -48,6 +48,15 @@ client.connect((err) => {
       });
   });
 
+  //update
+  app.get("/product/:id", (req, res) => {
+    productCollection
+      .find({ _id: ObjectId(req.params.id) })
+      .toArray((error, documents) => {
+        res.send(documents[0]);
+      });
+  });
+
   console.log("DB Connected!");
 });
 
