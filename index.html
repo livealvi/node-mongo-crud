@@ -32,10 +32,11 @@
                 .then(res => res.json())
                 .then(products => {
                     const container = document.getElementById('products');
+                    container.innerHTML = "";
                     products.forEach(product => {
                         const item = document.createElement('p');
                         item.innerHTML =
-                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity} | <button onclick="loadProduct('${product._id}')">Update</button> | <button onclick="deleteProduct('${product._id}')">Delete</button> `;
+                            `<strong>Name:</strong> ${product.name} | <strong>Price:</strong> ${product.price} | <strong>Quantity:</strong> ${product.quantity} | <button onclick="loadProduct('${product._id}')">Update</button> | <button onclick="deleteProduct(event, '${product._id}')">Delete</button> `;
                         container.appendChild(item);
                     });
                 })
@@ -61,12 +62,12 @@
                 })
         }
 
-        function deleteProduct(id) {
+        function deleteProduct(event, id) {
             fetch(`/delete/${id}`, {
                     method: 'DELETE'
                 }).then(res => res.json())
                 .then(result => {
-                    console.log('delete successfully');
+                    event.target.parentNode.style.display = "none";
                 })
         }
 
@@ -88,8 +89,11 @@
                     body: JSON.stringify(product)
                 })
                 .then(res => res.json())
-                .then(data => {
-                    console.log('updated');
+                .then(result => {
+                    if (result) {
+                        loadAllProducts();
+                        document.getElementById('update').innerHTML = "";
+                    }
                 })
         }
     </script>
